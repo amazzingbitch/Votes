@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Objects;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -58,16 +59,10 @@ public class StartPageController {
     }
 
     private void loginUser(String login, String password) throws SQLException, ClassNotFoundException {
-        DBHandler dbHandler = new DBHandler();
-        ResultSet resultSet = dbHandler.getUser(login, password);
-
+        Client.loginUser(login, password);
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "User with this login or password not founded", ButtonType.OK);
-
-        int k = 0;
-        while (resultSet.next()) {
-            k++;
-        }
-        if (k > 0) {
+        String response = Client.getResponse();
+        if (Objects.equals(response, "correct")) {
             loginButton.getScene().getWindow().hide();
             openMainW(getRole(login), login);
         } else {

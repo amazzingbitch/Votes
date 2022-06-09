@@ -53,7 +53,7 @@ public class DBHandler extends Configs {
         return resultSet;
     }
 
-    public ResultSet getUser(String login, String password) throws SQLException, ClassNotFoundException {
+    public boolean getUser(String login, String password) throws SQLException, ClassNotFoundException {
         ResultSet resultSet = null;
 
         String select = "SELECT * FROM " + Const.USER_TABLE + " WHERE " + Const.USER_LOGIN + "=? AND " + Const.USER_PASSWORD + "=?";
@@ -62,8 +62,11 @@ public class DBHandler extends Configs {
         prSt.setString(2, password);
         resultSet = prSt.executeQuery();
 
-        return resultSet;
-
+        int k = 0;
+        while (resultSet.next()) {
+            k++;
+        }
+        return k > 0;
     }
 
     public ResultSet getLogin(String login) throws SQLException, ClassNotFoundException {
