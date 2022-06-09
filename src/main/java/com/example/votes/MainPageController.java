@@ -12,9 +12,11 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Objects;
+import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -22,6 +24,12 @@ public class MainPageController {
 
     @FXML
     private ListView<String> listView;
+
+    @FXML
+    private ResourceBundle resources;
+
+    @FXML
+    private URL location;
 
     @FXML
     private Button deleteButton;
@@ -64,6 +72,32 @@ public class MainPageController {
 
     @FXML
     private RadioButton rb3;
+
+    @FXML
+    private Button statButton;
+
+    private static Timer timer;
+    private boolean count = false;
+    private int Id = 0;
+
+    @FXML
+    void statButtonClick(ActionEvent event) throws SQLException, ClassNotFoundException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(App.class.getResource("StatPage.fxml"));
+        try {
+            loader.load();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        Parent root = loader.getRoot();
+        StatPageController controller = loader.getController();
+        controller.sendInfo(loginLabel.getText(), getId(), label.getText());
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.showAndWait();
+
+    }
 
     @FXML
     void selectButtonClick(ActionEvent event) throws SQLException, ClassNotFoundException {
@@ -201,10 +235,6 @@ public class MainPageController {
         return false;
     }
 
-    private static Timer timer;
-    private boolean count = false;
-    private int Id = 0;
-
     void setInvisible() throws SQLException, ClassNotFoundException {
         count = true;
         if (Objects.equals(rL.getText(), "admin")) {
@@ -230,8 +260,6 @@ public class MainPageController {
             }
         }, 0, 1000);
     }
-
-
 
     private void update() throws IOException, SQLException, ClassNotFoundException {
         DBHandler dbHandler = new DBHandler();

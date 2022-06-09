@@ -18,22 +18,22 @@
       </AnchorPane>
       <AnchorPane prefHeight="900.0" prefWidth="919.0" style="-fx-background-color: #ADDFFF;">
          <children>
-            <Label fx:id="label" layoutX="136.0" layoutY="144.0" text="Название опроса">
+            <Label fx:id="label" layoutX="134.0" layoutY="90.0" text="Title of vote">
                <font>
                   <Font size="36.0" />
                </font>
             </Label>
-            <Label fx:id="s1" layoutX="251.0" layoutY="306.0" text="Ответ 1">
+            <Label fx:id="s1" layoutX="175.0" layoutY="168.0" text="Answer 1">
                <font>
                   <Font size="16.0" />
                </font>
             </Label>
-            <Label fx:id="s2" layoutX="251.0" layoutY="370.0" text="Ответ 2">
+            <Label fx:id="s2" layoutX="175.0" layoutY="225.0" text="Answer 2">
                <font>
                   <Font size="16.0" />
                </font>
             </Label>
-            <Label fx:id="s3" layoutX="251.0" layoutY="438.0" text="Ответ 3">
+            <Label fx:id="s3" layoutX="175.0" layoutY="287.0" text="Answer 3">
                <font>
                   <Font size="16.0" />
                </font>
@@ -48,14 +48,19 @@
                   <Font name="System Bold" size="16.0" />
                </font>
             </Label>
-            <RadioButton fx:id="rb1" layoutX="207.0" layoutY="310.0" mnemonicParsing="false" selected="true">
+            <RadioButton fx:id="rb1" layoutX="136.0" layoutY="172.0" mnemonicParsing="false" selected="true">
                <toggleGroup>
                   <ToggleGroup fx:id="sss" />
                </toggleGroup>
             </RadioButton>
-            <RadioButton fx:id="rb2" layoutX="207.0" layoutY="374.0" mnemonicParsing="false" toggleGroup="$sss" />
-            <RadioButton fx:id="rb3" layoutX="207.0" layoutY="442.0" mnemonicParsing="false" toggleGroup="$sss" />
-            <Button fx:id="selectButton" layoutX="279.0" layoutY="495.0" mnemonicParsing="false" onAction="#selectButtonClick" prefHeight="30.0" prefWidth="184.0" text="Select">
+            <RadioButton fx:id="rb2" layoutX="136.0" layoutY="229.0" mnemonicParsing="false" toggleGroup="$sss" />
+            <RadioButton fx:id="rb3" layoutX="136.0" layoutY="291.0" mnemonicParsing="false" toggleGroup="$sss" />
+            <Button fx:id="selectButton" layoutX="137.0" layoutY="347.0" mnemonicParsing="false" onAction="#selectButtonClick" prefHeight="30.0" prefWidth="184.0" text="Select">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Button>
+            <Button fx:id="statButton" layoutX="357.0" layoutY="347.0" mnemonicParsing="false" onAction="#statButtonClick" prefHeight="35.0" prefWidth="184.0" text="Statistics">
                <font>
                   <Font size="16.0" />
                </font>
