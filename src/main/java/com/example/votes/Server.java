@@ -5,11 +5,8 @@ import java.io.IOException;
         import java.io.ObjectOutputStream;
         import java.net.ServerSocket;
         import java.net.Socket;
-        import java.sql.Connection;
-        import java.sql.ResultSet;
         import java.sql.SQLException;
-        import java.util.Observable;
-        import java.util.Vector;
+
 
 
 public class Server {
@@ -46,14 +43,7 @@ public class Server {
         }
     }
 
-    public static String getClients() {
-       /* StringBuilder names = new StringBuilder();
-        for (MonoServer client : clientList)
-            names.append("Client ").append(client.getClientId()).append("\n");
-        return names.toString();*/
 
-        return "";
-    }
 
 
     public static void stop(ServerSocket serverSocket) {
@@ -94,14 +84,54 @@ public class Server {
                                 oos.writeObject("incorrect");
                                 oos.reset();
                             }
-                        } /*else if (userPackage.getMessage().equals("REGISTER")) {
-                            System.out.println(DBHandler.isUsernameExist(userPackage.username));
-                            if (DBHandler.isUsernameExist(userPackage.username)) {
-                                oos.writeObject("already exist");
+                        } else if (userPackage.getMessage().equals("ROLE")) {
+                             {
+                                oos.writeObject(DBHandler.getRole(userPackage.username));
                                 oos.reset();
-                            } else {
-                                DBHandler.signUpUser(userPackage.username, userPackage.password, userPackage.highScore);
-                                oos.writeObject("horoshechno");
+                            }
+                        }
+                        else if (userPackage.getMessage().equals("CHECK")) {
+                            {
+                                oos.writeObject(DBHandler.CheckUser(userPackage.username));
+                                oos.reset();
+                            }
+                        }
+
+                        else if (userPackage.getMessage().equals("SIGN")) {
+                            {
+                                DBHandler.signUpUser(userPackage.username,userPackage.password, userPackage.role);
+                                oos.writeObject("SUCCESS");
+                                oos.reset();
+                            }
+                        }
+
+                        /*else if (userPackage.getMessage().equals("ADDNEWS")) {
+                            {
+                                DBHandler.createNews(userPackage.title,userPackage.body);
+                                oos.writeObject("SUCCESS");
+                                oos.reset();
+                            }
+                        }
+
+                        else if (userPackage.getMessage().equals("DELNEWS")) {
+                            {
+                                DBHandler.DeleteNews(userPackage.title);
+                                oos.writeObject("SUCCESS");
+                                oos.reset();
+                            }
+                        }
+
+                        else if (userPackage.getMessage().equals("EDNEWS")) {
+                            {
+                                DBHandler.edNews(userPackage.starttitle,userPackage.title, userPackage.body);
+                                oos.writeObject("SUCCESS");
+                                oos.reset();
+                            }
+                        }
+
+                        else if (userPackage.getMessage().equals("ID")) {
+                            {
+                                oos.writeObject(String.valueOf(DBHandler.getID(userPackage.title)));
                                 oos.reset();
                             }
                         }*/
@@ -118,21 +148,6 @@ public class Server {
             }
         }
 
-        /*private void sendLeaderboard() {
-            Vector<UserPackage> table = new Vector<>();
-            ResultSet resultSet = DBHandler.getTable();
-            try {
-                while (resultSet.next()) {
-                    table.add(new UserPackage(resultSet.getString(1),
-                            resultSet.getString(3),
-                            resultSet.getInt(2)));
-                }
-                oos.writeObject(table);
-                oos.reset();
-            } catch (SQLException | IOException e) {
-                throw new RuntimeException(e);
-            }
 
-        }*/
     }
 }

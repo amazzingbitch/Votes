@@ -82,89 +82,89 @@ public class MainPageController {
 
     @FXML
     void statButtonClick(ActionEvent event) throws SQLException, ClassNotFoundException {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(App.class.getResource("StatPage.fxml"));
-        try {
-            loader.load();
+        if (!Objects.equals(label.getText(), "Title of vote")) {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(App.class.getResource("StatPage.fxml"));
+            try {
+                loader.load();
 
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            Parent root = loader.getRoot();
+            StatPageController controller = loader.getController();
+            controller.sendInfo(loginLabel.getText(), getId(), label.getText());
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.showAndWait();
         }
-        Parent root = loader.getRoot();
-        StatPageController controller = loader.getController();
-        controller.sendInfo(loginLabel.getText(), getId(), label.getText());
-        Stage stage = new Stage();
-        stage.setScene(new Scene(root));
-        stage.showAndWait();
 
     }
 
     @FXML
     void selectButtonClick(ActionEvent event) throws SQLException, ClassNotFoundException {
-        if (!voteOrNot()){
-            int n = 0;
-            int ID = getId();
-            DBHandler dbHandler = new DBHandler();
-            ResultSet resultSet2 = null;
-            if (rb1.isSelected()) {
-                try {
-                    resultSet2 = dbHandler.getAnswer(label.getText());
-                } catch (SQLException | ClassNotFoundException ex) {
-                    ex.printStackTrace();
-                }
-                try {
-                    assert resultSet2 != null;
-                    if (resultSet2.next()) {
-                        dbHandler.addStatVote1(ID, resultSet2.getInt("answer1stat") + 1);
+        if (!Objects.equals(label.getText(), "Title of vote")) {
+            if (!voteOrNot()) {
+                int n = 0;
+                int ID = getId();
+                DBHandler dbHandler = new DBHandler();
+                ResultSet resultSet2 = null;
+                if (rb1.isSelected()) {
+                    try {
+                        resultSet2 = dbHandler.getAnswer(label.getText());
+                    } catch (SQLException | ClassNotFoundException ex) {
+                        ex.printStackTrace();
                     }
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
+                    try {
+                        assert resultSet2 != null;
+                        if (resultSet2.next()) {
+                            dbHandler.addStatVote1(ID, resultSet2.getInt("answer1stat") + 1);
+                        }
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    }
+                    n = 1;
                 }
-                n = 1;
-            }
 
-            if (rb2.isSelected()) {
-                try {
-                    resultSet2 = dbHandler.getAnswer(label.getText());
-                } catch (SQLException | ClassNotFoundException ex) {
-                    ex.printStackTrace();
-                }
-                try {
-                    assert resultSet2 != null;
-                    if (resultSet2.next()) {
-                        dbHandler.addStatVote2(ID, resultSet2.getInt("answer2stat") + 1);
+                if (rb2.isSelected()) {
+                    try {
+                        resultSet2 = dbHandler.getAnswer(label.getText());
+                    } catch (SQLException | ClassNotFoundException ex) {
+                        ex.printStackTrace();
                     }
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
+                    try {
+                        assert resultSet2 != null;
+                        if (resultSet2.next()) {
+                            dbHandler.addStatVote2(ID, resultSet2.getInt("answer2stat") + 1);
+                        }
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    }
+                    n = 2;
                 }
-                n = 2;
-            }
 
-            if (rb3.isSelected()) {
-                try {
-                    resultSet2 = dbHandler.getAnswer(label.getText());
-                } catch (SQLException | ClassNotFoundException ex) {
-                    ex.printStackTrace();
-                }
-                try {
-                    assert resultSet2 != null;
-                    if (resultSet2.next()) {
-                        dbHandler.addStatVote3(ID, resultSet2.getInt("answer3stat") + 1);
+                if (rb3.isSelected()) {
+                    try {
+                        resultSet2 = dbHandler.getAnswer(label.getText());
+                    } catch (SQLException | ClassNotFoundException ex) {
+                        ex.printStackTrace();
                     }
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
+                    try {
+                        assert resultSet2 != null;
+                        if (resultSet2.next()) {
+                            dbHandler.addStatVote3(ID, resultSet2.getInt("answer3stat") + 1);
+                        }
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    }
+                    n = 3;
                 }
-                n = 3;
-            }
-            dbHandler.addUserVote(ID, loginLabel.getText(), n);
-        } else {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "You already voted", ButtonType.OK);
+                dbHandler.addUserVote(ID, loginLabel.getText(), n);
+            } else {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "You already voted", ButtonType.OK);
                 alert.showAndWait();
+            }
         }
-        /*rb1.setVisible(false);
-        rb2.setVisible(false);
-        rb3.setVisible(false);*/
-        //selectButton.setDisable(true);
 
     }
 
@@ -186,30 +186,40 @@ public class MainPageController {
 
     @FXML
     void editButtonClick(ActionEvent event) {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(App.class.getResource("EditPage.fxml"));
-        try {
-            loader.load();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        if (!Objects.equals(label.getText(), "Title of vote")) {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(App.class.getResource("EditPage.fxml"));
+            try {
+                loader.load();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            Parent root = loader.getRoot();
+            EditPageController cntrl = loader.getController();
+            cntrl.sendText(label.getText(), s1.getText(), s2.getText(), s3.getText());
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.showAndWait();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Choose one of the votes in the left list to edit it", ButtonType.OK);
+            alert.showAndWait();
         }
-        Parent root = loader.getRoot();
-        EditPageController cntrl = loader.getController();
-        cntrl.sendText(label.getText(), s1.getText(), s2.getText(), s3.getText());
-        Stage stage = new Stage();
-        stage.setScene(new Scene(root));
-        stage.showAndWait();
 
     }
 
     @FXML
     void deleteButtonClick(ActionEvent event) throws SQLException, ClassNotFoundException {
-        DBHandler dbHandler = new DBHandler();
-        dbHandler.deleteVote(label.getText());
-        label.setText("Название опроса");
-        s1.setText("Ответ 1");
-        s2.setText("Ответ 2");
-        s3.setText("Ответ 3");
+        if (!Objects.equals(label.getText(), "Title of vote")) {
+            DBHandler dbHandler = new DBHandler();
+            dbHandler.deleteVote(label.getText());
+            label.setText("Title of vote");
+            s1.setText("Answer 1");
+            s2.setText("Answer 2");
+            s3.setText("Answer 3");
+        } else {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Choose one of the votes in the left list to delete it", ButtonType.OK);
+            alert.showAndWait();
+        }
     }
 
     @FXML

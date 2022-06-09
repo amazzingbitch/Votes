@@ -1,18 +1,17 @@
 package com.example.votes;
 
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
 
 import java.io.Serializable;
 
 
 public class UserPackage implements Serializable {
-    public int highScore;
     public String username;
     public String password;
     public String message;
-    public SimpleStringProperty login;
-    public SimpleIntegerProperty record;
+    public String role;
+    public String title;
+    public String starttitle;
+    public String body;
 
 
     public UserPackage(String username, String password, String message) {
@@ -20,33 +19,43 @@ public class UserPackage implements Serializable {
         this.password = password;
         this.message = message;
     }
-
-    /*public UserPackage(String username, String password, int highScore) {
+    public UserPackage(String username, String message) {
+        this.username = username;
+        this.message = message;
+    }
+    public UserPackage(String username, String password, String role, String message) {
         this.username = username;
         this.password = password;
-        this.highScore = highScore;
+        this.role = role;
+        this.message = message;
     }
 
-    public UserPackage(SimpleStringProperty username, SimpleIntegerProperty record) {
-        this.login = username;
-        this.record = record;
+    public UserPackage(String title, String body, String message, int i) {
+        this.title = title;
+        this.body = body;
+        this.message = message;
+    }
 
-    }*/
+    public UserPackage(String title, String message, int i) {
+        this.title = title;
+        this.message = message;
+    }
+
+    public UserPackage(String starttitle, String title, String body, String message, int i) {
+        this.starttitle = starttitle;
+        this.title = title;
+        this.body = body;
+        this.message = message;
+    }
+
+    public UserPackage(String title, String message, boolean i) {
+        this.title = title;
+        this.message = message;
+    }
 
 
     public String getMessage() {
         return message;
     }
 
-    public int getHighScore() {
-        return highScore;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
 }

@@ -170,5 +170,32 @@ public class DBHandler extends Configs {
 
     }
 
+    public String getRole(String login) throws SQLException, ClassNotFoundException {
+        ResultSet resultSet2 = getLogin(login);
+        String role = null;
+        try {
+            assert resultSet2 != null;
+            if(resultSet2.next()) {
+                role = resultSet2.getString("role");
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return role;
+    }
+
+    public String CheckUser(String login) throws SQLException, ClassNotFoundException {
+        ResultSet resultSet2 = getLogin(login);
+        try {
+            assert resultSet2 != null;
+            if(resultSet2.next()) {
+                return "0";
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return "1";
+    }
+
 
 }

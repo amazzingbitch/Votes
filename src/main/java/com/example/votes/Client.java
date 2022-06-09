@@ -28,19 +28,6 @@ public class Client {
         }
     }
 
-    public static Vector<UserPackage> getLeaderBoard() {
-        Vector<UserPackage> userPackages;
-        try {
-            oos.writeObject("LEAD.BOARD");
-            oos.reset();
-
-            userPackages = (Vector<UserPackage>) ois.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-        return userPackages;
-    }
-
     public static void sendObj(UserPackage userPackage) {
         try {
             oos.writeObject(userPackage);
@@ -63,7 +50,6 @@ public class Client {
         return tmp;
     }
 
-
     public void stopConnection() {
         try {
             ois.close();
@@ -76,6 +62,21 @@ public class Client {
 
     public static void loginUser(String login, String password) {
         UserPackage user = new UserPackage(login, password, "LOGIN");
+        sendObj(user);
+    }
+
+    public static void Role(String login) {
+        UserPackage user = new UserPackage(login, "ROLE");
+        sendObj(user);
+    }
+
+    public static void checkUser(String login){
+        UserPackage user = new UserPackage(login, "CHECK");
+        sendObj(user);
+    }
+
+    public static void SignUp(String login, String password, String role){
+        UserPackage user = new UserPackage(login, password, role,"SIGN");
         sendObj(user);
     }
 

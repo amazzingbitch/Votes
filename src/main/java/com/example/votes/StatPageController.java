@@ -55,7 +55,7 @@ public class StatPageController {
         DBHandler dbHandler = new DBHandler();
         ResultSet resultSet2 = null, resultSet = null;
         int a_1 = 0, a_2 = 0, a_3 = 0, var = 0;
-        System.out.println("user " + login);
+
         try {
             resultSet2 = dbHandler.voteOrNot(login);
         } catch (SQLException | ClassNotFoundException ex) {
@@ -73,11 +73,9 @@ public class StatPageController {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        System.out.println("var = " + var);
+
         try {
             resultSet = dbHandler.getAnswer(lab);
-            System.out.println(label.getText());
-            System.out.println(resultSet);
         } catch (SQLException | ClassNotFoundException ex) {
             ex.printStackTrace();
         }
@@ -91,11 +89,8 @@ public class StatPageController {
                 an1 = resultSet.getString("answer1");
                 an2 = resultSet.getString("answer2");
                 an3 = resultSet.getString("answer3");
-                System.out.println("a1 = " + a1);
-                System.out.println("a2 = " + a2);
-                System.out.println("a3 = " + a3);
-                answer = resultSet.getString("answer"+ var);
-                System.out.println("answer = " + answer);
+                if (var != 0) answer = resultSet.getString("answer"+ var);
+                else answer = "-";
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -108,9 +103,15 @@ public class StatPageController {
         num3.setText(String.valueOf(a_3));
         allvotes.setText(String.valueOf(a_1+a_2+a_3));
         useransw.setText(answer);
-        prec1.setText(String.valueOf((double) a_1/(a_1+a_2+a_3)*100)+"%");
-        perc2.setText(String.valueOf((double)a_2/(a_1+a_2+a_3)*100)+"%");
-        perc3.setText(String.valueOf((double)a_3/(a_1+a_2+a_3)*100)+"%");
+        if ((a_1+a_2+a_3) != 0){
+            prec1.setText((double) a_1 / (a_1 + a_2 + a_3) * 100 + "%");
+            perc2.setText((double) a_2 / (a_1 + a_2 + a_3) * 100 + "%");
+            perc3.setText((double) a_3 / (a_1 + a_2 + a_3) * 100 + "%");
+        } else {
+            prec1.setText((double) 0 + "%");
+            perc2.setText((double) 0 + "%");
+            perc3.setText((double) 0 + "%");
+        }
     }
 
 }

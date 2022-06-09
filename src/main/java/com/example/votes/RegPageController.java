@@ -11,6 +11,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Objects;
 
 
 public class RegPageController {
@@ -35,50 +36,51 @@ public class RegPageController {
 
     @FXML
     void createButtonClick(ActionEvent event) throws SQLException, ClassNotFoundException {
-        DBHandler dbHandler = new DBHandler();
-        String role = "";
-        if (selectAdmin.isSelected()) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Username or Password is empty\n", ButtonType.YES);
+        String role = null;
+        if(selectAdmin.isSelected()){
             role = "admin";
-        } else {
-            if (selectUser.isSelected()) {
-                role = "user";
-            }
         }
+        if(selectUser.isSelected()){
+            role = "user";
+        }
+        if(!loginText.getText().trim().equals("")&&!passwordText.getText().trim().equals("")){
+            if(checkUser(loginText.getText().trim())) {
+                Client.SignUp(loginText.getText(), passwordText.getText(), role);
 
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Login or Password is empty", ButtonType.OK);
-
-        if (loginText.getText().equals("") || passwordText.getText().equals("")) {
-            alert.showAndWait();
-        } else {
-            ResultSet resultSet = dbHandler.getLogin(loginText.getText());
-            Alert alert_ = new Alert(Alert.AlertType.CONFIRMATION, "User with this login already exist. Create another login", ButtonType.OK);
-
-            int k = 0; // counter
-            while (resultSet.next()) { // if user founded when counter++
-                k++;
-            }
-
-            if (k == 0) {
-                dbHandler.signUpUser(loginText.getText(), passwordText.getText(), role);
-                createButton.getScene().getWindow().hide();
-                FXMLLoader loader = new FXMLLoader();
-                loader.setLocation(App.class.getResource("MainPage.fxml"));
-                try {
-                    loader.load();
-
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
+                if (Objects.equals(Client.getResponse(), "SUCCESS")) {
+                    FXMLLoader loader = new FXMLLoader();
+                    loader.setLocation(App.class.getResource("MainPage.fxml"));
+                    try{
+                        loader.load();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    Parent root = loader.getRoot();
+                    MainPageController controller = loader.getController();
+                    controller.sendRole(role, loginText.getText());
+                    Stage stage = new Stage();
+                    stage.setScene(new Scene(root));
+                    stage.showAndWait();
                 }
-                Parent root = loader.getRoot();
-                MainPageController cntrl = loader.getController();
-                cntrl.sendRole(role, loginText.getText());
-                Stage stage = new Stage();
-                stage.setScene(new Scene(root));
-                stage.showAndWait();
-            } else {
-                alert_.showAndWait();
+
             }
         }
+        else{
+            alert.showAndWait();
+        }
+    }
+
+    private boolean checkUser(String loginText) throws SQLException, ClassNotFoundException {
+        Client.checkUser(loginText);
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "User with this login already exist\n", ButtonType.YES);
+        String resp = Client.getResponse();
+        System.out.println(resp);
+        if(Objects.equals(resp, "0")){
+            alert.showAndWait();
+            return false;
+        }
+        return true;
     }
 
     @FXML

@@ -90,24 +90,8 @@ public class StartPageController {
 
 
     String getRole(String login){
-        DBHandler dbH = new DBHandler();
-        ResultSet resultSet2 = null;
-        try {
-            resultSet2 = dbH.getLogin(login);
-        } catch (SQLException | ClassNotFoundException ex) {
-            ex.printStackTrace();
-        }
-        String role = null;
-        try {
-            assert resultSet2 != null;
-            if(resultSet2.next()) {
-                System.out.println(resultSet2);
-                role = resultSet2.getString("role");
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        return role;
+        Client.Role(login);
+        return Client.getResponse();
     }
 
 
