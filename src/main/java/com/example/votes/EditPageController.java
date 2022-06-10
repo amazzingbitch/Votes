@@ -4,7 +4,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 
 import java.io.IOException;
@@ -54,9 +56,27 @@ public class EditPageController {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        dbHandler.updateVote(id, titleText.getText(), answ1.getText(), answ2.getText(), answ3.getText());
-
-        saveButton.getScene().getWindow().hide();
+        try {
+            resultSet2 = dbHandler.getAnswer(titleText.getText());
+        } catch (SQLException | ClassNotFoundException ex) {
+            ex.printStackTrace();
+        }
+        boolean flag = false;
+        try {
+            assert resultSet2 != null;
+            if (resultSet2.next()) {
+                flag = true;
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        if (!flag) {
+            dbHandler.updateVote(id, titleText.getText(), answ1.getText(), answ2.getText(), answ3.getText());
+            saveButton.getScene().getWindow().hide();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Vote with this title already exists. Create another title", ButtonType.OK);
+            alert.showAndWait();
+        }
     }
 
     public void sendText(String title, String answer1, String answer2, String answer3) {

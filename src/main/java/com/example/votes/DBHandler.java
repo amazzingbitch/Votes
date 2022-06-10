@@ -197,5 +197,62 @@ public class DBHandler extends Configs {
         return "1";
     }
 
+    public String getStat1(String lab) {
+        ResultSet resultSet = null;
+        try {
+            resultSet = getAnswer(lab);
+        } catch (SQLException | ClassNotFoundException ex) {
+            ex.printStackTrace();
+        }
+        try {
+            assert resultSet != null;
+            if (resultSet.next()) {
+                return String.valueOf(resultSet.getInt("answer1stat"));
+
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return "0";
+    }
+
+    public String getStat2(String lab) {
+        ResultSet resultSet = null;
+        try {
+            resultSet = getAnswer(lab);
+        } catch (SQLException | ClassNotFoundException ex) {
+            ex.printStackTrace();
+        }
+        try {
+            assert resultSet != null;
+            if (resultSet.next()) {
+                return String.valueOf(resultSet.getInt("answer2stat"));
+
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return "0";
+    }
+
+    public String getStat3(String lab) {
+        ResultSet resultSet = null;
+        try {
+            resultSet = getAnswer(lab);
+        } catch (SQLException | ClassNotFoundException ex) {
+            ex.printStackTrace();
+        }
+        try {
+            assert resultSet != null;
+            if (resultSet.next()) {
+                return String.valueOf(resultSet.getInt("answer3stat"));
+
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return "0";
+    }
+
 
 }

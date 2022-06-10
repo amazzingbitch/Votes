@@ -80,5 +80,20 @@ public class Client {
         sendObj(user);
     }
 
+    public static void Stat1(String title, int i){
+        UserPackage user = new UserPackage(title, "STAT1", i);
+        sendObj(user);
+    }
+
+    public static void Stat2(String title, int i){
+        UserPackage user = new UserPackage(title, "STAT2", i);
+        sendObj(user);
+    }
+
+    public static void Stat3(String title, int i){
+        UserPackage user = new UserPackage(title, "STAT3", i);
+        sendObj(user);
+    }
+
 
 }

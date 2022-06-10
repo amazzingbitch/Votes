@@ -275,12 +275,27 @@ public class MainPageController {
         DBHandler dbHandler = new DBHandler();
         ResultSet resultSet = dbHandler.getVote();
         listView.getItems().clear();
-
         while (resultSet.next()) {
             String name = resultSet.getString("titlevotes");
             listView.getItems().add(name);
-
         }
+
+        /*while (resultSet.next()) {
+            if (resultSet.getInt("idvotes") == Id) {
+                label.setText(resultSet.getString("titlevotes"));
+                s1.setText(resultSet.getString("answer1"));
+                s2.setText(resultSet.getString("answer2"));
+                s3.setText(resultSet.getString("answer3"));
+                break;
+            } else {
+                label.setText("Title of vote");
+                s1.setText("Answer 1");
+                s2.setText("Answer 2");
+                s3.setText("Answer 3");
+                break;
+            }
+
+        }*/
 
         listView.setOnMouseClicked(e -> {
             label.setText(listView.getSelectionModel().getSelectedItem());
@@ -311,6 +326,7 @@ public class MainPageController {
                     s2.setText(answer2);
                     answer3 = resultSet2.getString("answer3");
                     s3.setText(answer3);
+                    //Id = getId();
                 }
             } catch (SQLException ex) {
                 ex.printStackTrace();

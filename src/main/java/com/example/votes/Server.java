@@ -105,6 +105,27 @@ public class Server {
                             }
                         }
 
+                        else if (userPackage.getMessage().equals("STAT1")) {
+                            {
+                                oos.writeObject(DBHandler.getStat1(userPackage.title));
+                                oos.reset();
+                            }
+                        }
+
+                        else if (userPackage.getMessage().equals("STAT2")) {
+                            {
+                                oos.writeObject(DBHandler.getStat2(userPackage.title));
+                                oos.reset();
+                            }
+                        }
+
+                        else if (userPackage.getMessage().equals("STAT3")) {
+                            {
+                                oos.writeObject(DBHandler.getStat3(userPackage.title));
+                                oos.reset();
+                            }
+                        }
+
                         /*else if (userPackage.getMessage().equals("ADDNEWS")) {
                             {
                                 DBHandler.createNews(userPackage.title,userPackage.body);

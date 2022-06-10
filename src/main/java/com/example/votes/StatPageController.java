@@ -51,7 +51,6 @@ public class StatPageController {
     void sendInfo(String login, int id, String lab) {
         label.setText(lab);
 
-
         DBHandler dbHandler = new DBHandler();
         ResultSet resultSet2 = null, resultSet = null;
         int a_1 = 0, a_2 = 0, a_3 = 0, var = 0;
@@ -65,7 +64,7 @@ public class StatPageController {
         try {
             assert resultSet2 != null;
             while (resultSet2.next()) {
-                if (resultSet2.getInt("idvotes")== id) {
+                if (resultSet2.getInt("idvotes") == id) {
                     var = resultSet2.getInt("numansw");
                     break;
                 }
@@ -83,9 +82,9 @@ public class StatPageController {
         try {
             assert resultSet != null;
             if (resultSet.next()) {
-                a_1 = resultSet.getInt("answer1stat");
+                /*a_1 = resultSet.getInt("answer1stat");
                 a_2 = resultSet.getInt("answer2stat");
-                a_3 = resultSet.getInt("answer3stat");
+                a_3 = resultSet.getInt("answer3stat");*/
                 an1 = resultSet.getString("answer1");
                 an2 = resultSet.getString("answer2");
                 an3 = resultSet.getString("answer3");
@@ -95,6 +94,12 @@ public class StatPageController {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
+        Client.Stat1(lab, 0);
+        a_1 = Integer.parseInt(Client.getResponse());
+        Client.Stat2(lab, 0);
+        a_2 = Integer.parseInt(Client.getResponse());
+        Client.Stat3(lab, 0);
+        a_3 = Integer.parseInt(Client.getResponse());
         a1.setText(an1);
         a2.setText(an2);
         a3.setText(an3);
